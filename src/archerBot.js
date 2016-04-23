@@ -62,20 +62,20 @@ ArcherBot.prototype._onMessage = function (message) {
     console.log(message);
     if (this._isReplyFromJustJoinedUser(message)) {
       if (JOIN_RESPONSE.test(message.text)) {
-        this._postMessage(message, pickRandom(responses.dangerZone));
+        this._postMessage(message, responses.byType(responses.TYPE.DANGER_ZONE));
         newUser.joined = false;
         newUser.responded = true;
         newUser.id = '';
       }
     }
     else if (this._isMentioningArcher(message)) {
-      this._postMessage(message, pickRandom(responses.random));
+      this._postMessage(message, responses.byType(responses.TYPE.RANDOM));
     }
     else if (this._isTriggerCantWont(message)) {
-      this._postMessage(message, responses.cantWont);
+      this._postMessage(message, 'Can\'t or won\'t?');
     }
     else if (this._isTriggerPhrasingResponse(message)) {
-      this._postMessage(message, pickRandom(responses.phrasing));
+      this._postMessage(message,responses.byType(responses.TYPE.PHRASING));
     }
     //User joins channel or group
     else if (this._isChannelJoin(message) || this._isGroupJoin(message)) {
@@ -155,10 +155,10 @@ ArcherBot.prototype._loadBotUser = function () {
  */
 ArcherBot.prototype._welcomeMessage = function () {
   if(this.channels.length){
-    this._postMessage({type: 'message', channel: this.channels[0].name}, responses.welcome);
+    this._postMessage({type: 'message', channel: this.channels[0].name}, responses.byType(responses.TYPE.WELCOME));
   }
   if(this.groups.length){
-    this._postMessage({type: 'message', channel: this.groups[0].name}, responses.welcome);
+    this._postMessage({type: 'message', channel: this.groups[0].name}, responses.byType(responses.TYPE.WELCOME));
   }
 };
 
